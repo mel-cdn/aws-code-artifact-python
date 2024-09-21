@@ -5,6 +5,7 @@ import requests
 
 
 class RequestsUtil:
+    """Simple requests utility using bearer token as authorization."""
 
     def __init__(self, bearer_token: str):
         self.__session = requests.Session()

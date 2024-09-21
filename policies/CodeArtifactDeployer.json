@@ -1,0 +1,30 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowCodeArtifact",
+			"Effect": "Allow",
+			"Action": [
+				"codeartifact:GetAuthorizationToken",
+				"codeartifact:PublishPackageVersion",
+				"codeartifact:DescribePackageVersion",
+				"codeartifact:DescribeRepository",
+				"codeartifact:GetPackageVersionReadme",
+				"codeartifact:GetRepositoryEndpoint",
+				"codeartifact:ListPackageVersionAssets",
+				"codeartifact:ListPackageVersionDependencies",
+				"codeartifact:ListPackageVersions",
+				"codeartifact:ListPackages",
+				"codeartifact:ReadFromRepository",
+				"codeartifact:GetRepositoryEndpoint"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "AllowStsBearerToken",
+			"Effect": "Allow",
+			"Action": "sts:GetServiceBearerToken",
+			"Resource": "*"
+		}
+	]
+}
