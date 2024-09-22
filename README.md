@@ -3,19 +3,14 @@
 [![Build Status](https://github.com/mel-cdn/azure-fastapi-serverless/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/mel-cdn/azure-fastapi-serverless/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Little project to explore pushing and pulling a Python libray to AWS Code Artifact
+Little project to explore pushing and pulling a Python libray to AWS Code Artifact.
 
 ## Requirements
 
-### Python
-
 1. Install [pyenv](https://github.com/pyenv/pyenv#installation)
 2. Install [Poetry](https://python-poetry.org/docs/)
+3. Install [AWS CLI V2](https://aws.amazon.com/cli/)
 
-### AWS
-
-1. Setup AWS
-2. Install [AWS CLI V2](https://aws.amazon.com/cli/)
 
 ## Setup the project
 
@@ -61,5 +56,59 @@ $ pytest --cov=shared
    interact (**publish** and **pull**) with the repository.
 
 ## Publish private Python module to Repository
+> All steps below requires your AWS profile to be configured already on your CLI.
+
+
+```bash
+# domain-owner = AWS Account ID
+
+# Retrieve CodeArtifact authorization token...
+$ AUTH_TOKEN=$(
+aws codeartifact get-authorization-token \
+  --domain-owner "1234567890123" \
+  --domain "mello-world" \
+  --query 'authorizationToken' \
+  --output text
+)
+
+# Retrieve CodeArtifact repository URL...
+$ CODE_ARTIFACT_REPO_URL=$(
+aws codeartifact get-repository-endpoint \
+  --domain-owner "1234567890123" \
+  --domain "mello-world" \
+  --repository "code-artifact-python-demo" \
+  --format pypi \
+  --query 'repositoryEndpoint' \
+  --output text
+)
+$ echo "$CODE_ARTIFACT_REPO_URL"
+
+# Build Python package
+$ poetry build
+Building aws-code-artifact-python (0.0.1)
+  - Building sdist
+  - Built aws_code_artifact_python-0.0.1.tar.gz
+  - Building wheel
+  - Built aws_code_artifact_python-0.0.1-py3-none-any.whl
+
+# Publish to CodeArtifact repository
+$ poetry config repositories.demo-python "$CODE_ARTIFACT_REPO_URL"
+$ poetry config http-basic.demo-python aws "$AUTH_TOKEN"
+Using a plaintext file to store credentials
+$ poetry publish -r demo-python
+Publishing aws-code-artifact-python (0.0.1) to demo-python
+  - Uploading aws_code_artifact_python-0.0.1-py3-none-any.whl 100%
+  - Uploading aws_code_artifact_python-0.0.1.tar.gz 100%
+
+```
+
+
+<details>
+<summary>Python library published successfully (Click to view)</summary>
+
+![publish-success](images/publish-success.png)
+
+</details>
+
 
 ## Install private Python module to your environment
