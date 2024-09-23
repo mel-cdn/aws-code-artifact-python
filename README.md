@@ -76,7 +76,7 @@ $ CODE_ARTIFACT_REPO_URL=$(
 aws codeartifact get-repository-endpoint \
   --domain-owner "1234567890123" \
   --domain "mello-world" \
-  --repository "code-artifact-python-demo" \
+  --repository "aws-code-artifact-python" \
   --format pypi \
   --query 'repositoryEndpoint' \
   --output text
@@ -92,14 +92,13 @@ Building aws-code-artifact-python (0.0.1)
   - Built aws_code_artifact_python-0.0.1-py3-none-any.whl
 
 # Publish to CodeArtifact repository
-$ poetry config repositories.demo-python "$CODE_ARTIFACT_REPO_URL"
-$ poetry config http-basic.demo-python aws "$AUTH_TOKEN"
+$ poetry config repositories.python-demo "$CODE_ARTIFACT_REPO_URL"
+$ poetry config http-basic.python-demo aws "$AUTH_TOKEN"
 Using a plaintext file to store credentials
-$ poetry publish -r demo-python
+$ poetry publish -r python-demo
 Publishing aws-code-artifact-python (0.0.1) to demo-python
   - Uploading aws_code_artifact_python-0.0.1-py3-none-any.whl 100%
   - Uploading aws_code_artifact_python-0.0.1.tar.gz 100%
-
 ```
 
 
@@ -112,3 +111,25 @@ Publishing aws-code-artifact-python (0.0.1) to demo-python
 
 
 ## Install private Python module to your environment
+```bash
+# Install module
+$ aws codeartifact login \
+  --tool pip \
+  --domain-owner "1234567890123" \
+  --domain "mello-world" \
+  --repository "aws-code-artifact-python" \
+  --profile "default" \
+  --region "ap-southeast-1"
+Login expires in 12 hours at 2024-09-24 09:25:24+08:00
+
+$ pip install aws-code-artifact-python
+
+# Show installed modules
+$ pip list
+Package                  Version   Editable project location
+------------------------ --------- ----------------------------------
+aws-code-artifact-python 0.0.1     /c/projects/aws-code-artifact-python
+
+# Reset to default source of pypi packages
+$ pip config unset global.index-url
+```
