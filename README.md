@@ -1,6 +1,5 @@
 # AWS Code Artifact | Python
 
-[![Build Status](https://github.com/mel-cdn/azure-fastapi-serverless/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/mel-cdn/azure-fastapi-serverless/actions/workflows/deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Little project to explore pushing and pulling a Python libray to AWS Code Artifact.
