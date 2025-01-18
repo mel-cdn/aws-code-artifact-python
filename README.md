@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Little project to explore pushing and pulling a Python libray to AWS Code Artifact.
+Little project to explore pushing and pulling a Python library to AWS Code Artifact.
 
 ## Requirements
 
